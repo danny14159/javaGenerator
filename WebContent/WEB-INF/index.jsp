@@ -25,9 +25,13 @@ s{color:red;font-weight: bold;text-decoration: none;margin: 3px;}
 <form action="" method="post" id="main">
 	<div class="row">
 		<label><s>*</s>数据库Url:</label>
-		<input type="text" name="url" 
+		<input type="hidden" name="url" 
 		value="${url }" class="required" style="width:700px"
 		placeholder="jdbc:mysql://[ip]:[port]/[database]?characterEncoding=utf8"/>
+		jdbc:mysql://
+		<input type="text" name="url_host" placeholder="host" style="width:300px" value="${url_host }"/>:
+		<input type="text" name="url_port" placeholder="port" style="width:300px" value="${url_port }"/>/
+		<input type="text" name="url_db" placeholder="database" style="width:300px" value="${url_db }"/>?characterEncoding=utf8
 	</div>
 	<div class="row">
 		<label><s>*</s>数据库用户名:</label><input type="text" name="username" value="${username }" class="required"/>
@@ -45,7 +49,7 @@ s{color:red;font-weight: bold;text-decoration: none;margin: 3px;}
 		<label><s>*</s>导出地址:</label><input type="text" name="exportPath" value="${exportPath }" class="required"/><button onclick="getDesktopPath()" class="btn btn-primary btn-xs">桌面</button>
 	</div>
 	<div class="row">
-		<label><s>*</s>主键:</label><input type="text" name="pk" value="" class="required"/>
+		<label><s>*</s>主键:</label><input type="text" name="pk" value="${pk }" class="required"/>
 	</div>
 
 	<div class="row">
@@ -456,7 +460,7 @@ function geniBatisXml(){
 	
 	for(var i in records){
 		var r=records[i];
-		if(r[6]) {insertField.push(r[0]);insertValues.push('#{'+r[0]+',jdbcType='+r[1]+'}')}
+		if(r[6]) {insertField.push(r[0]);insertValues.push('#{'+r[0]+'}')};
 		if(r[6] && r[0]!=apk[0]) data.deleteCon.push(r[0]);
 		if(r[6]) data.updateField.push(r[0]);
 		if(r[6] && r[0]!=apk[0]) data.updateCon.push(r[0]);
@@ -473,15 +477,16 @@ function geniBatisXml(){
 	}
 	data.pk=apk.join(' and ');
 	data.tbname = $('#tables').val();
-	data.namespace = $('[name=package_]').val()+'.ibatis.';
-	data.name = $('[name=package_]').val() + '.entity.'+$('[name=className]').val();
+	data.namespace = $('[name=package_]').val()+'.mapper.'+gettext('className')+'Dao';
+	data.name = $('[name=package_]').val() + '.bean.'+$('[name=className]').val();
+	data['package'] = gettext('package_');
 	console.log(data);
 	
 	
 	laytpl($('#ibatisTpl').html()).render(data,function(html){
 		html = html.replace(/(\\n)/g,'\n');
 		console.log(html);
-		exportFile(data['package']+'.service.mapper', data.name+'Mapper', 'xml', html);
+		exportFile(data['package']+'.service.mapper', gettext('className')+'Mapper', 'xml', html,gettext('exportPath'));
 		
 		var mapres=(data['package']+'.service.mapper').replace(/(\.)/g, '/')+'/'+data.name+'Mapper.xml';
 		console.log("mapper:<mapper resource=\""+mapres+"\"></mapper>")
