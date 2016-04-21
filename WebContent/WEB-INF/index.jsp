@@ -18,11 +18,11 @@ s{color:red;font-weight: bold;text-decoration: none;margin: 3px;}
 </head>
 <body>
 
-<h2>数据库 - java代码生成器</h2>
+<h2>Database - Java Code Generator v0.1</h2>
 
-		<h3>jdbc:mysql://[ip]:3306/[database]?characterEncoding=utf8</h3>
+		<!-- <h3>jdbc:mysql://[ip]:3306/[database]?characterEncoding=utf8</h3> -->
 		<h4 class="text-danger">${exception }</h4>
-<form action="" method="post" id="main">
+<form action="" method="post" id="main" class="form-inline">
 	<div class="row">
 		<label><s>*</s>数据库Url:</label>
 		<input type="hidden" name="url" 
@@ -34,22 +34,33 @@ s{color:red;font-weight: bold;text-decoration: none;margin: 3px;}
 		<input type="text" name="url_db" placeholder="database" style="width:300px" value="${url_db }"/>?characterEncoding=utf8
 	</div>
 	<div class="row">
-		<label><s>*</s>数据库用户名:</label><input type="text" name="username" value="${username }" class="required"/>
+		<div class="form-group">
+			<label><s>*</s>数据库用户名:</label><input type="text" name="username" value="${username }" class="required"/>
+		</div>
+		<div class="form-group">
+			<label><s>*</s>数据库密码:</label><input type="password" name="password" value="${password }" class="required"/>
+		</div>
 	</div>
 	<div class="row">
-		<label><s>*</s>数据库密码:</label><input type="password" name="password" value="${password }" class="required"/>
+		<div class="form-group">
+			<label><s>*</s>基础包名:</label><input type="text" name="package_" value="${package_ }" class="required" placeholder="如：com.sun"/>
+		</div>
+		<div class="form-group">
+			<label><s></s>实体类名:</label><input type="text" name="className" value="${className }" class="required" placeholder="可选，默认不忽略表前缀"/>
+		</div>
 	</div>
 	<div class="row">
-		<label><s>*</s>基础包名:</label><input type="text" name="package_" value="${package_ }" class="required"/>
+		<div class="form-group">
+			<label><s></s>路由路径:</label>/<input type="text" name="routePath" value="${routePath }" class="required" placeholder="控制器请求的路由路径"/>
+		</div>
+		<div class="form-group">
+			<label><s>*</s>导出地址:</label><input type="text" name="exportPath" value="${exportPath }" class="required"/><button onclick="getDesktopPath()" class="btn btn-primary btn-xs">桌面</button>
+		</div>
 	</div>
 	<div class="row">
-		<label><s>*</s>实体类名:</label><input type="text" name="className" value="${className }" class="required"/>
-	</div>
-	<div class="row">
-		<label><s>*</s>导出地址:</label><input type="text" name="exportPath" value="${exportPath }" class="required"/><button onclick="getDesktopPath()" class="btn btn-primary btn-xs">桌面</button>
-	</div>
-	<div class="row">
-		<label><s>*</s>主键:</label><input type="text" name="pk" value="${pk }" class="required"/>
+		<div class="form-group">
+			<label><s>*</s>主键:</label><input type="text" name="pk" value="${pk }" class="required"/>
+		</div>
 	</div>
 
 	<div class="row">
